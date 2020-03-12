@@ -13,6 +13,14 @@ class DataDesc {
 public:
     DataDesc(double st, double end, double delta) :
     _start(st), _end(end), _delta(delta) {}
+    
+    double end() const { return _end; }
+    double endPlusTol() const { return _end + kTol; }
+    double start() const { return _start; }
+    double delta() const { return _delta; }
+
+private:
+    constexpr static const double kTol = 1e-6;
     double _start;
     double _end;
     double _delta;
@@ -64,7 +72,7 @@ int main(int argc, char * argv[]) {
 
 void fg::writePoints1(std::ofstream& out, func1 fp, const DataDesc& dd)
 {
-    for (double x = dd._start; x <= dd._end; x+= dd._delta) {
+    for (double x = dd.start(); x <= dd.endPlusTol(); x += dd.delta()) {
         out << x << "    " << fp(x) << "\n";
     }
 }
